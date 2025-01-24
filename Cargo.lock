@@ -1897,7 +1897,7 @@ dependencies = [
  "rocket",
  "serde",
  "serde_json",
- "swarm-rs-macros",
+ "swarm-rs-macros 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio",
  "url",
  "walkdir",
@@ -1906,6 +1906,17 @@ dependencies = [
 [[package]]
 name = "swarm-rs-macros"
 version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "swarm-rs-macros"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0eab4bca27817e6d91b079f419509f357f23fb8a6f8ffaf2ba8917935e7cdadb"
 dependencies = [
  "proc-macro2",
  "quote",
