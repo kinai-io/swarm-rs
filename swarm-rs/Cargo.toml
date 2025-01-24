@@ -7,7 +7,7 @@ repository = "https://github.com/kinai-io/swarm-rs"
 license = "MIT"
 description = "A minimalist framework for building agentic workflow"
 homepage = "https://github.com/kinai-io/swarm-rs"
-keywords = ["ai agent", "framework"]
+keywords = ["api", "framework", "framework", "server", "ai"]
 categories = ["web-programming"]
 
 
