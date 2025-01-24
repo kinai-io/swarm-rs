@@ -1,0 +1,33 @@
+{
+    "id" : "llm-summarizer",
+    "client" : {
+        "endpoint": "http://localhost:1337/v1/chat/completions",
+        "model": "phi-3.5-mini-instruct"
+    },
+    "operations": {
+        "summarize" : {
+            "role": "You are a helpful research assistant.",
+            "goal" : "Summarize the content of the user provided text and make sure your answer covers the following questions, respond as consisely as possible using only and omit details.",
+            "output_rules" : "Structure your ouput in summary and comma separated keywords to explore the subject",
+            "output_format": {
+                "name": "summary_schema",
+                "strict": true,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "keywords": {
+                            "type": "string"
+                        },
+                        "summary": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties" : false,
+                    "required": [
+                        "summary", "keywords"
+                    ]
+                }
+            }
+        }
+    }
+}
