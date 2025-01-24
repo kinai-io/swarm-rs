@@ -1,0 +1,13 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "swarm-rs",
+    "swarm-rs-macros",
+]
+
+[profile.dev]
+opt-level = 3
+
+[workspace.dependencies]
+

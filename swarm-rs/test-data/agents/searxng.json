@@ -1,0 +1,6 @@
+{
+    "id" : "searx_ng",
+    "endpoint" : "http://localhost:8888",
+    "sites" : [
+    ]
+}
