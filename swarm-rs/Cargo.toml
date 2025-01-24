@@ -13,7 +13,7 @@ categories = ["web-programming"]
 
 [dependencies]
 
-swarm-rs-macros = { path = "../swarm-rs-macros", version = "0.1.0"  }
+swarm-rs-macros = { version = "0.1.0"  }
 
 # Base agent framework
 async-trait = "0.1"
