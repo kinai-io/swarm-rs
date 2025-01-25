@@ -2,7 +2,7 @@ use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
 use super::llm_message::LLMMessage;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct LLMResponse {
     pub created: u32,
     pub choices: Vec<LLMChoice>,
@@ -32,7 +32,7 @@ impl LLMResponse {
     }
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct LLMUsage {
     pub completion_tokens: usize,
     pub prompt_tokens: usize,
