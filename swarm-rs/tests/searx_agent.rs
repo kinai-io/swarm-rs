@@ -14,11 +14,12 @@ pub async fn searx_agent() {
         lang: None,
     };
 
-    let output = agent_swarm.execute("searx_ng", &query).await;
+    let output = agent_swarm.execute("searx_ng.search", &query).await;
 
     if output.is_success() {
         println!("SUCCESS : {}", output.get_value());
     } else {
         println!("ERROR : {}", output.get_error_message());
     }
+
 }
