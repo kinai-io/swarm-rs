@@ -1,4 +1,4 @@
-use std::any::Any;
+use std::{any::Any, fmt::Display};
 
 use async_trait::async_trait;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
@@ -93,5 +93,15 @@ impl Output {
 
     pub fn is_success(&self) -> bool {
         self.status.as_str() == "SUCCESS"
+    }
+}
+
+impl Display for Output {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if self.is_success() {
+            write!(f, "SUCCESS : {}", self.get_value())
+        } else {
+            write!(f, "ERROR : {}", self.get_error_message())
+        }
     }
 }
