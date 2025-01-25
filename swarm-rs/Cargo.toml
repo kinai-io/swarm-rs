@@ -1,6 +1,6 @@
 [package]
 name = "swarm-rs"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["Riana <riana@kinai.io>"]
 repository = "https://github.com/kinai-io/swarm-rs"
