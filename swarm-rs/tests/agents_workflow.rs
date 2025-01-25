@@ -38,7 +38,7 @@ impl Agent for RAGDemo {
         };
 
         // Execute market doc search
-        let doc_search_output = agent_swarm.execute("searx_ng", &query).await;
+        let doc_search_output = agent_swarm.execute("searx_ng.search", &query).await;
 
         // Consolidate context
         let docs: SearxResponse = doc_search_output.get_payload();

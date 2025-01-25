@@ -2,6 +2,7 @@ use std::any::Any;
 
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
+use swarm_rs_macros::{agent, agent_action};
 
 use crate::{
     agent::{Action, Agent, Output},
@@ -23,22 +24,15 @@ pub struct SearxAgent {
     sites: Vec<String>,
 }
 
+#[agent]
 impl SearxAgent {
 
     pub fn get_id(&self) -> String{
         self.id.to_string()
     }
-}
 
-#[async_trait]
-impl Agent for SearxAgent {
-
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
-
-    async fn execute(&self, action: &Action, _swarm: &Swarm) -> Output {
-        let query: SearchQuery = action.get_payload().unwrap();
+    #[agent_action]
+    pub async fn search(&self, query: SearchQuery) -> Result<SearxResponse, String> {
         let mut searx_query = SearxQuery::new(&query.terms);
         if let Some(lang) = &query.lang {
             searx_query.set_lang(lang);
@@ -46,9 +40,9 @@ impl Agent for SearxAgent {
         if self.sites.is_empty() {
             let results = search(&self.endpoint, &searx_query).await;
             if results.success {
-                Output::new_success(results)
+                Ok(results)
             } else {
-                Output::new_error("Search Error")
+                Err("Search Error".to_string())
             }
         } else {
             let mut results: Vec<SearxResultEntry> = vec![];
@@ -69,9 +63,9 @@ impl Agent for SearxAgent {
                     success: success,
                     results: results,
                 };
-                Output::new_success(resp)
+               Ok(resp)
             } else {
-                Output::new_error("Search Error")
+                Err("Search Error".to_string())
             }
         }
     }
