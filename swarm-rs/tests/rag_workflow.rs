@@ -96,11 +96,11 @@ pub async fn rag_workflow() {
 
     agent_swarm.register_agent(&searx_agent.get_id(), searx_agent);
     agent_swarm.register_agent(&llm_agent.get_id(), llm_agent);
-    agent_swarm.register_agent("web_rag", rag_agent);
+    agent_swarm.register_agent("simple_rag", rag_agent);
 
     let text = r#"agentic ai system"#;
     let query = RagQuery::new(text);
-    let output = agent_swarm.execute("web_rag.search", &query).await;
+    let output = agent_swarm.execute("simple_rag.search", &query).await;
 
     if output.is_success() {
         println!("SUCCESS : {}", output.get_value());
