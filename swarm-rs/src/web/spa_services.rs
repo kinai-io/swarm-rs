@@ -2,6 +2,10 @@ use std::path::{Path, PathBuf};
 
 use rocket::{fs::NamedFile, get, State};
 
+use crate::logger::Logger;
+
+use super::request_headers::RequestHeaders;
+
 pub struct SPA {
     ui_dir: String,
     resources_dir: String
@@ -26,7 +30,8 @@ impl SPA {
 }
 
 #[get("/<file..>")]
-pub async fn app_index(file: PathBuf, spa: &State<SPA>) -> Option<NamedFile> {
+pub async fn app_index(file: PathBuf, spa: &State<SPA>, headers: RequestHeaders, logger: &State<Logger>) -> Option<NamedFile> {
+    logger.info("SPA", &headers);
     let p = Path::new(&spa.ui_dir).join(file);
     if p.exists() && p.is_file() {
         NamedFile::open(p).await.ok()
@@ -37,7 +42,8 @@ pub async fn app_index(file: PathBuf, spa: &State<SPA>) -> Option<NamedFile> {
 }
 
 #[get("/resources/<file..>")]
-pub async fn app_resources(file: PathBuf,spa: &State<SPA>) -> Option<NamedFile> {
+pub async fn app_resources(file: PathBuf,spa: &State<SPA>, headers: RequestHeaders,  logger: &State<Logger>) -> Option<NamedFile> {
+    logger.info("SPA", &headers);
     let p = Path::new(&spa.resources_dir).join(file);
     if p.exists() && p.is_file() {
         NamedFile::open(p).await.ok()
