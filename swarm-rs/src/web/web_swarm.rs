@@ -4,13 +4,11 @@ use rocket::{
 };
 
 use crate::{
-    agent::{Action, Output},
-    prelude::Swarm,
+    agent::{Action, Output}, logger::Logger, prelude::Swarm
 };
 
 use super::{
-    auth::{AuthAgent, AuthHeaders},
-    spa_services::{self, SPA},
+    auth::{AuthAgent, AuthHeaders}, request_headers::RequestHeaders, spa_services::{self, SPA}
 };
 
 pub struct WebSwarm {}
@@ -19,10 +17,11 @@ impl WebSwarm {
     pub fn serve(swarm: Swarm) -> Rocket<Build> {
         let figment = rocket::Config::figment().merge(("address", "0.0.0.0"));
         let spa_settings = SPA::default();
-
+        let logger = Logger::new("logs", "webswarm");
         rocket::custom(figment)
             .manage(spa_settings)
             .manage(swarm)
+            .manage(logger)
             .mount(
                 "/",
                 routes![spa_services::app_index, spa_services::app_resources],
@@ -43,7 +42,11 @@ pub async fn execute_action(
     auth_headers: AuthHeaders,
     action: Json<Action>,
     agents_swarm: &State<Swarm>,
+    headers: RequestHeaders,
+    logger: &State<Logger>,
 ) -> Result<Json<Output>, Status> {
+    logger.info("ACTION", &headers);
+
     let accessible = if let Some(auth_agent) = agents_swarm.get_agent::<AuthAgent>("Auth") {
         let action_id = action.get_id();
         auth_agent.is_accessible(&auth_headers.token, action_id)
