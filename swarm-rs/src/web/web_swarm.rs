@@ -9,8 +9,7 @@ use crate::{
 };
 
 use super::{
-    auth::AuthAgent,
-    request_headers::RequestHeaders,
+    auth::{AuthAgent, AuthHeaders},
     spa_services::{self, SPA},
 };
 
@@ -41,13 +40,13 @@ impl WebSwarm {
 
 #[post("/action", data = "<action>")]
 pub async fn execute_action(
-    headers: RequestHeaders,
+    auth_headers: AuthHeaders,
     action: Json<Action>,
     agents_swarm: &State<Swarm>,
 ) -> Result<Json<Output>, Status> {
     let accessible = if let Some(auth_agent) = agents_swarm.get_agent::<AuthAgent>("Auth") {
         let action_id = action.get_id();
-        auth_agent.is_accessible(&headers.token, action_id)
+        auth_agent.is_accessible(&auth_headers.token, action_id)
     }else {
         true
     };
