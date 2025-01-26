@@ -33,16 +33,16 @@ impl Swarm {
     }
 
     pub async fn execute<T: Serialize>(&self, action_id: &str, payload: &T) -> Output {
-        let action_ts = Utc::now().timestamp_millis() as u64;
-        let event_type = format!("Action[{}:{}]", action_id, action_ts);
-        self.logging.info(&event_type, payload);
         let action = Action::new(action_id, payload);
         let output = self.execute_action(&action).await;
-        self.logging.info(&event_type, &output);
         output
     }
 
     pub async fn execute_action(&self, action: &Action) -> Output {
+        let action_ts = Utc::now().timestamp_millis() as u64;
+        let event_type = format!("Action[{}:{}]", action.get_id(), action_ts);
+        self.logging.info(&event_type, &action);
+
         let agent_id = action.get_agent();
         if let Some(agent) = self.agents.get(agent_id) {
             // println!("Agent Found downcasting");
@@ -50,10 +50,13 @@ impl Swarm {
             // if let Some(agent) = agent {
             let mut output = agent.execute(action, &self).await;
             output.agent_id = agent_id.to_string();
+            self.logging.info(&event_type, &output);
             return output;
             // }
         }
-        Output::new_error("Agent Not Found")
+        let output = Output::new_error("Agent Not Found");
+        self.logging.error(&event_type, &output);
+        output
     }
 
     pub fn get_agent<T: Agent + 'static>(&self, agent_id: &str) -> Option<&T> {
