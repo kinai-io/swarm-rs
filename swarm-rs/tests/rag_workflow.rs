@@ -48,6 +48,9 @@ impl RAGDemo {
         // Execute market doc search
         let doc_search_output = swarm.execute("searx_ng.search", &query).await;
 
+        if !doc_search_output.is_success() {
+            return Err("Unable to perform search".to_string())
+        }
         // Handle search output
         let docs: SearxResponse = doc_search_output.get_payload();
         let contents: Vec<&str> = docs
@@ -92,7 +95,7 @@ pub async fn rag_workflow() {
 
     let rag_agent = RAGDemo::new();
 
-    let mut agent_swarm = Swarm::new();
+    let mut agent_swarm = Swarm::default();
 
     agent_swarm.register_agent(&searx_agent.get_id(), searx_agent);
     agent_swarm.register_agent(&llm_agent.get_id(), llm_agent);

@@ -28,7 +28,7 @@ impl MacroAgent {
 #[tokio::test]
 pub async fn macro_agent() {
     let test_macro_agent = MacroAgent::new();
-    let mut agent_swarm = Swarm::new();
+    let mut agent_swarm = Swarm::default();
 
     agent_swarm.register_agent("TestMacro", test_macro_agent);
 
