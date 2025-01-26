@@ -4,7 +4,7 @@ use swarm_rs::prelude::*;
 pub async fn llm_agent() {
     let llm_agent: LLMAgent = json_io::load("test-data/agents/llm_summarizer.json").unwrap();
 
-    let mut agent_swarm = Swarm::new();
+    let mut agent_swarm = Swarm::default();
     agent_swarm.register_agent(&llm_agent.get_id(), llm_agent);
 
     let mut prompt = LLMPrompt::new();

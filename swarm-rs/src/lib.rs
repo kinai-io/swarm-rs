@@ -5,4 +5,5 @@ pub mod searx_agent;
 pub mod prelude;
 pub mod web;
 pub mod utils;
+pub mod logger;
 

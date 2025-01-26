@@ -1,3 +1,4 @@
 target
+logs
 **/test-data/out
 **/.DS_Store

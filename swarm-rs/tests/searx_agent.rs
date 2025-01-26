@@ -4,7 +4,7 @@ use swarm_rs::prelude::*;
 pub async fn searx_agent() {
     let searx_agent: SearxAgent = json_io::load("test-data/agents/searxng.json").unwrap();
 
-    let mut agent_swarm = Swarm::new();
+    let mut agent_swarm = Swarm::default();
     agent_swarm.register_agent(&searx_agent.get_id(), searx_agent);
 
     let text = r#"what is agentic ai system"#;

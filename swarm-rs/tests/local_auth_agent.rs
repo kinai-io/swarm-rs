@@ -8,7 +8,7 @@ use swarm_rs::{
 pub async fn auth_agent() {
     let auth: AuthAgent = json_io::load("test-data/agents/auth.json").unwrap();
     file_io::remove_file("test-data/out/users.json");
-    let mut swarm = Swarm::new();
+    let mut swarm = Swarm::default();
     swarm.register_agent("auth", auth);
 
     let new_user = NewUser::new("admin", "p4ssw0rd", "Admin", "", vec!["Admin"]);
