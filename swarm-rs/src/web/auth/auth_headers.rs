@@ -3,12 +3,12 @@ use rocket::{
     request::{self, FromRequest, Request},
 };
 
-pub struct RequestHeaders {
+pub struct AuthHeaders {
     pub token: String
 }
 
 #[rocket::async_trait]
-impl<'r> FromRequest<'r> for RequestHeaders {
+impl<'r> FromRequest<'r> for AuthHeaders {
     type Error = ();
 
     async fn from_request(request: &'r Request<'_>) -> request::Outcome<Self, Self::Error> {
