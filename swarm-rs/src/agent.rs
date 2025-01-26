@@ -15,7 +15,7 @@ pub trait Agent: Any + Send + Sync {
 #[derive(Serialize, Deserialize)]
 pub struct Action {
     id: String,
-    payload: Value,
+    pub(crate) payload: Value,
 }
 
 impl Action {
