@@ -50,7 +50,7 @@ impl Logger {
     }
 
     fn current_file_name(file_prefix: &str) -> String {
-        let date = today_with_format("%Y%m%d%H");
+        let date = today_with_format("%Y%m%d");
         format!("{}-{}.log", file_prefix, date)
     }
 
